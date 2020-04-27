@@ -1,0 +1,90 @@
+
+
+service: retotecnicor
+
+provider:
+  role: arn:aws:iam::859928983765:role/Rol_reto
+  name: aws 
+  endpointType: REGIONAL
+  runtime: nodejs10.x
+  timeout: 30
+  memorySize: 128
+  stage: dev2
+  region: us-east-1
+  environment: 
+    region: "${self:provider.region}"
+    stage: "${self:provider.stage}"
+  apiKeys: 
+    - ${file(./config.json):API_KEY}
+  stackTags:
+    NAME: "retotecnicor"
+    ENTORNO: DESARROLLO
+    PROYECTO: RETO TECNICO RIMAC
+    DOMINIO: RIMAC
+    RESPONSABLE: CARLOS ABANTO
+  iamRoleStatements:  
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
+  vpc:
+    securityGroupIds:
+      - sg-c73ba9e6
+    subnetIds:
+      - subnet-a032cd81
+functions:
+# Get Lamda Planets  
+  planetsLambda: 
+    handler: src/controllers/PlanetsGetHandler.planets
+    name: Planets001
+    descripcion: PLANETS
+    tags:
+      NAME: Planets001
+      ENTORNO: DESARROLLO
+      PROYECTO: RETO TECNICO RIMAC
+      DOMINIO: RIMAC
+      RESPONSABLE: CARLOS ABANTO
+    environment:
+      DATABASE: reto_tecnico
+      PORT: 3306
+      HOST: database-reto.cttm33ke6m1x.us-east-1.rds.amazonaws.com
+      PASSWORD: Retotecnico
+      PATH: https://swapi.py4e.com/api/planets/1/
+      URL_API:  https://swapi.py4e.com/documentation
+      USER: admin
+    events: 
+      - http:
+          path: planets
+          method: get
+          cors: true
+          integration: lambda
+
+# Post Lamda Planets  
+  planetsLambdaPost: 
+    handler: src/controllers/PlanetsPostHandler.planets
+    name: Planets002
+    descripcion: PLANETSPOST
+    tags:
+      NAME: Planets002
+      ENTORNO: DESARROLLO
+      PROYECTO: RETO TECNICO RIMAC
+      DOMINIO: RIMAC
+      RESPONSABLE: CARLOS ABANTO
+    environment:
+      DATABASE: reto_tecnico
+      PORT: 3306
+      HOST: database-reto.cttm33ke6m1x.us-east-1.rds.amazonaws.com
+      PASSWORD: Retotecnico
+      USER: admin
+    events: 
+      - http:
+          path: planets
+          method: post
+          cors: true
+          integration: lambda
+resources:
+  Resources:
+    ApiGatewayRestApi:
+      Type: "AWS::ApiGateway::RestApi"
+      Properties:
+        Name: "APIRetoTecnico"
