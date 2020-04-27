@@ -1,16 +1,16 @@
 # reto_tecnico_rimac
 
-
-
-- Clonar proyecto
-    - bash
-        - $ git clone https://github.com/CarlosAbanto/reto_tecnico_rimac.git 
+        - $ cd reto_tecnico_rimac
         - $ cd retoTecnicoR
 
 - Configure inicial del proyecto
     - bash 
         # accesos aws
-        - $ serverless config credentials --provider aws --key AKIA4QN6C7DK3SOIRFXN  --secret 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
+        - $ serverless config credentials --provider aws --key [aws_access_key_id]  --secret [aws_secret_access_key]
+
+            # Si tiene ya una configuracion de credenciales, ejecutar: 
+             - $ serverless config credentials --provider aws --key [aws_access_key_id]  --secret [aws_secret_access_key] -o 
+             
         # instalar librerias
         - $ npm install -y
         # desplegar serverless
