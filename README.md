@@ -1,7 +1,13 @@
 # reto_tecnico_rimac
 
-- Configure inicial del proyecto
 
+
+- Clonar proyecto
+    - bash
+        - $ git clone https://github.com/CarlosAbanto/reto_tecnico_rimac.git 
+        - $ cd retoTecnicoR
+
+- Configure inicial del proyecto
     - bash 
         # accesos aws
         - $ serverless config credentials --provider aws --key AKIA4QN6C7DK3SOIRFXN  --secret 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
